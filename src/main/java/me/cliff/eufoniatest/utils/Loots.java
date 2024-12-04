@@ -1,16 +1,12 @@
 package me.cliff.eufoniatest.utils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 
 public class Loots {
 
-    @JsonProperty("biomes")
     private HashMap<String, List<String>> lootTables = new HashMap<String, List<String>>();
 
     public HashMap<String, List<String>> getLootTables() {

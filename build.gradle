@@ -17,15 +17,18 @@ repositories {
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
 }
+configurations{
+    libs
+}
 
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "com.fasterxml.jackson.core:jackson-core:2.18.1"
-    modImplementation "com.fasterxml.jackson.core:jackson-databind:2.14.0"
-    modImplementation "com.fasterxml.jackson.core:jackson-annotations:2.18.1"
+
+    modImplementation ("com.fasterxml.jackson.core:jackson-databind:${jackson_databind}")
+    libs ("com.fasterxml.jackson.core:jackson-databind:${jackson_databind}")
 
 
     // Fabric API. This is technically optional, but you probably want it anyway.
@@ -46,7 +49,6 @@ processResources {
 }
 
 fabricApi {
-    configureDataGeneration()
 }
 
 def targetJavaVersion = 17
@@ -73,9 +75,10 @@ java {
 }
 
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
+    from {
+            configurations.libs.filter{ it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    duplicatesStrategy = 'EXCLUDE'
 }
 
 // configure the maven publication
