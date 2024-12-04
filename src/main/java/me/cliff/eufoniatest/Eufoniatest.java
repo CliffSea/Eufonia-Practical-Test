@@ -44,8 +44,8 @@ public class Eufoniatest implements DedicatedServerModInitializer {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
 
             // Logic for Chest Placing on survival
-            if (player.getActiveItem().getItem().equals(Items.CHEST)) {
-                onChestPlaceCallback.EVENT.register(((pos, state) -> {
+            if (player.getStackInHand(hand).getItem().equals(Items.CHEST)) {
+                onChestPlaceCallback.EVENT.register((pos, state) -> {
 
                     if (player.isCreative() || player.isSpectator()) {
                         return ActionResult.PASS;
@@ -54,7 +54,7 @@ public class Eufoniatest implements DedicatedServerModInitializer {
                     ChestData.setUsed((IChestBlockDataSaver) world.getBlockEntity(pos), true);
 
                     return ActionResult.SUCCESS;
-                }));
+                });
             }
 
             if (!world.isClient) {
@@ -80,10 +80,5 @@ public class Eufoniatest implements DedicatedServerModInitializer {
             return ActionResult.PASS;
         });
 
-
-
     }
-
-
-
 }
