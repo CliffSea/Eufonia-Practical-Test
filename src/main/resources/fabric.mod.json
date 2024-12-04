@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "eufoniatest",
+  "version": "${version}",
+  "name": "eufoniatest",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/Cliff/eufoniatest"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/eufoniatest/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "server": [
+      "me.cliff.eufoniatest.Eufoniatest"
+    ]
+  },
+  "mixins": [
+    "eufoniatest.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
