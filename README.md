@@ -31,7 +31,7 @@ A little server side mod that connect loot Tables to chest on open
 I had some issues in how to implement the method to add the nbt tag on survival place because of the performance impact
 
 1. my first though on how to do it was to check every tick for block places, for one user it could be fine but for a big server this option was quickly discarded
-   2. after discarding that i though what if i add a mixin on the chest block spawn or something like that but after a bit of trying I realize that would trigger even when a chest spawned normally on generation so discarded too
+   2. after discarding that i though what if I add a mixin on the chest block spawn or something like that but after a bit of trying I realize that would trigger even when a chest spawned normally on generation so discarded too
    3. the final one was probably the obvious make a custom fabricCallBackEvent on the BlockUpdateS2CPacket, why? because it triggers only when a client places a block it sends a Blockupdate packet to the server that we can listen but this can impact performance?  
 
    - not much we are only listening to an already existing packet and in the first line if the state (it holds the block type) checks if the block is an instance of ChestBlock so we can return early if it's not a chest
@@ -42,8 +42,8 @@ I had some issues in how to implement the method to add the nbt tag on survival 
     // rest of the code
 }
 ````
-- funny thing i thought this would be enough but after using a profile just to be sure I realize the Callback was creating a lot of objects even if it wasn't a chest
-  - just by holding left click with anything on hand in like 2 minutes i reach 2k objects on memory using 5kb of ram i know not a lot but an issue nevertheless 
+- funny thing I thought this would be enough but after using a profiler (VisualVM) just to be sure I realize that the Callback was creating a lot of objects even if it wasn't a chest
+  - just by holding left click with anything on hand in like 2 minutes I reached 2k objects on memory using 5kb of ram I know not a lot but an issue nevertheless 
   - the fix was really easy actually just check before the callback if the player was holding a chest and returning more early in the creative check
 ````java
 public void onInitializeServer() {
